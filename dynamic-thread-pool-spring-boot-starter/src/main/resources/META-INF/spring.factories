@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    cn.yifan.middleware.dynamic.thread.pool.sdk.config.DynamicThreadPoolAutoConfig
