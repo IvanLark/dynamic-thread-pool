@@ -4,7 +4,6 @@ import cn.yifan.middleware.dynamic.thread.pool.sdk.core.IDynamicThreadPoolServic
 import cn.yifan.middleware.dynamic.thread.pool.sdk.entity.ThreadPoolConfigEntity;
 import cn.yifan.middleware.dynamic.thread.pool.sdk.registry.IReporter;
 import com.alibaba.fastjson.JSON;
-import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,6 +31,7 @@ public class ThreadPoolConfigReportJob {
 
     @Scheduled(cron = "0/20 * * * * ?")
     public void executeReportThreadPoolConfig() {
+        logger.info("进入定时上报任务");
         List<ThreadPoolConfigEntity> threadPoolConfigList = dynamicThreadPoolService.getThreadPoolConfigList();
         reporter.reportThreadPoolConfigList(threadPoolConfigList);
         logger.info("动态线程池，上报线程池列表信息：{}", JSON.toJSONString(threadPoolConfigList));

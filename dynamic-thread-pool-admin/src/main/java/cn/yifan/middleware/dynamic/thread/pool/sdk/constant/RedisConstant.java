@@ -1,4 +1,4 @@
-package cn.yifan.middleware.dynamic.thread.pool.constant;
+package cn.yifan.middleware.dynamic.thread.pool.sdk.constant;
 
 /**
  * @FileName RedisConstant

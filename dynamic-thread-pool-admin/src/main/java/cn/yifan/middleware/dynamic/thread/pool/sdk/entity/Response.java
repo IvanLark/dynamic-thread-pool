@@ -1,4 +1,4 @@
-package cn.yifan.middleware.dynamic.thread.pool.entity;
+package cn.yifan.middleware.dynamic.thread.pool.sdk.entity;
 
 import lombok.*;
 

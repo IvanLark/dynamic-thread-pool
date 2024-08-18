@@ -8,12 +8,11 @@ import cn.yifan.middleware.dynamic.thread.pool.sdk.registry.IReporter;
 import cn.yifan.middleware.dynamic.thread.pool.sdk.registry.redis.RedisReporter;
 import cn.yifan.middleware.dynamic.thread.pool.sdk.trigger.ThreadPoolConfigAdjustListener;
 import cn.yifan.middleware.dynamic.thread.pool.sdk.trigger.ThreadPoolConfigReportJob;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.Redisson;
-import org.redisson.api.RBucket;
 import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
-import org.redisson.codec.JacksonCodec;
 import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.slf4j.Logger;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +36,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 @EnableConfigurationProperties(DynamicThreadPoolAutoProperties.class)
+// 开启定时任务
+@EnableScheduling
 public class DynamicThreadPoolAutoConfig {
 
     private final Logger logger = LoggerFactory.getLogger(DynamicThreadPoolAutoConfig.class);
@@ -100,6 +102,8 @@ public class DynamicThreadPoolAutoConfig {
             threadPoolExecutor.setMaximumPoolSize(threadPoolConfigEntity.getMaximumPoolSize());
         }
 
+        logger.info("动态线程池Service服务注册完成, 当前线程池: {}", JSON.toJSONString(threadPoolExecutorMap.keySet()));
+
         return new DynamicThreadPoolService(applicationName, threadPoolExecutorMap);
     }
 
@@ -112,6 +116,7 @@ public class DynamicThreadPoolAutoConfig {
     public ThreadPoolConfigAdjustListener threadPoolConfigAdjustListener(IDynamicThreadPoolService dynamicThreadPoolService, IReporter reporter, RedissonClient redissonClient) {
         ThreadPoolConfigAdjustListener threadPoolConfigAdjustListener = new ThreadPoolConfigAdjustListener(dynamicThreadPoolService, reporter);
         // 绑定Listener
+        logger.info("绑定listener");
         String key = String.format("%s:%s", RedisConstant.THREAD_POOL_CONFIG_UPDATE_TOPIC, applicationName);
         RTopic topic = redissonClient.getTopic(key);
         topic.addListener(ThreadPoolConfigEntity.class, threadPoolConfigAdjustListener);

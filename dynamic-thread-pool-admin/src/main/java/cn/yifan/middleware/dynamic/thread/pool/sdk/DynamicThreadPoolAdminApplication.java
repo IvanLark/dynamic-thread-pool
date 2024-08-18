@@ -1,4 +1,4 @@
-package cn.yifan.middleware.dynamic.thread.pool;
+package cn.yifan.middleware.dynamic.thread.pool.sdk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,10 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 
 @SpringBootApplication
-public class Application {
+public class DynamicThreadPoolAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(DynamicThreadPoolAdminApplication.class, args);
     }
 
 }

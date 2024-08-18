@@ -1,4 +1,4 @@
-package cn.yifan.middleware.dynamic.thread.pool.config;
+package cn.yifan.middleware.dynamic.thread.pool.sdk.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

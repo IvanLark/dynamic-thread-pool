@@ -1,8 +1,11 @@
 package cn.yifan.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.*;
 
@@ -13,9 +16,12 @@ import java.util.concurrent.*;
  * @date 2024-08-16 22:41
  **/
 
+@EnableAsync
 @Configuration
 @EnableConfigurationProperties({ThreadPoolProperties.class})
 public class TreadPoolConfig {
+
+    private final Logger logger = LoggerFactory.getLogger(TreadPoolConfig.class);
 
     @Bean("threadPoolExecutor01")
     public ThreadPoolExecutor threadPoolExecutor01(ThreadPoolProperties threadPoolProperties) {
@@ -37,6 +43,9 @@ public class TreadPoolConfig {
                 handler = new ThreadPoolExecutor.AbortPolicy();
                 break;
         }
+
+        logger.info("注册线程池01");
+
         return new ThreadPoolExecutor(
                 threadPoolProperties.getCorePoolSize(),
                 threadPoolProperties.getMaxPoolSize(),
@@ -69,6 +78,9 @@ public class TreadPoolConfig {
                 handler = new ThreadPoolExecutor.AbortPolicy();
                 break;
         }
+
+        logger.info("注册线程池02");
+
         return new ThreadPoolExecutor(
                 threadPoolProperties.getCorePoolSize(),
                 threadPoolProperties.getMaxPoolSize(),

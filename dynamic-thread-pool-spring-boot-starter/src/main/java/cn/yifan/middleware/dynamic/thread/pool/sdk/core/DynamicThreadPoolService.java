@@ -82,7 +82,7 @@ public class DynamicThreadPoolService implements IDynamicThreadPoolService {
         if (threadPoolConfigEntity == null || !applicationName.equals(threadPoolConfigEntity.getAppName())) { return false; }
         ThreadPoolExecutor threadPoolExecutor = threadPoolExecutorMap.get(threadPoolConfigEntity.getThreadPoolName());
         if (threadPoolExecutor == null) { return false; }
-
+        logger.info("更新参数: {}", JSON.toJSONString(threadPoolConfigEntity));
         // 更新参数
         threadPoolExecutor.setCorePoolSize(threadPoolConfigEntity.getCorePoolSize());
         threadPoolExecutor.setMaximumPoolSize(threadPoolConfigEntity.getMaximumPoolSize());
